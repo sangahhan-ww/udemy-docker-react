@@ -1,0 +1,21 @@
+version: '3'
+services: 
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev # so it will use the dev dockerfile
+    ports: 
+      - "3000:3000"
+    volumes: # volume mounting
+      - /app/node_modules
+      - .:/app  # folder outside container : folder in container
+    stdin_open: true
+  tests: # same as above, but we are going to override the command in the dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile.dev # so it will use the dev dockerfile
+    volumes: # volume mounting
+      - /app/node_modules
+      - .:/app  # folder outside container : folder in container
+    stdin_open: true
+    command: ["npm", "run", "test"]
