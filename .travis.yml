@@ -1,0 +1,13 @@
+sudo: required
+language: generic # rakefile not found fix
+services: 
+  - docker # travis ci is going to auto install docker
+
+before_install: # things that get executed before we test or deploy
+  - docker build -t sangah93/udemy-docker-react -f Dockerfile.dev . # --> we are tagging so we can refer to it later
+  
+script: # runs when our tests need to be executed
+  #- docker run <id> npm run test # default behaviour: doesn't exit
+  - docker run -e CI=true sangah93/udemy-docker-react npm run test
+    # https://facebook.github.io/create-react-app/docs/running-tests#linux-macos-bash
+    # https://docs.docker.com/engine/reference/run/#env-environment-variables
