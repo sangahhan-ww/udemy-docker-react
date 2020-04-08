@@ -1,3 +1,5 @@
+
+
 sudo: required
 language: generic # rakefile not found fix
 services: 
@@ -11,3 +13,17 @@ script: # runs when our tests need to be executed
   - docker run -e CI=true sangah93/udemy-docker-react npm run test
     # https://facebook.github.io/create-react-app/docs/running-tests#linux-macos-bash
     # https://docs.docker.com/engine/reference/run/#env-environment-variables
+
+deploy: 
+  edge: true
+  # travis CI has built in connections to major cloud providers
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "udemy-docker-react"
+  env: "UdemyDockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-1-815672245469" # s3 bucket 
+  bucket_path: "udemy-docker-react" # all your app files will show in this folder within the bucket
+  on:
+    branch: master # anytime we push to master, this is when we deploy
+  access_key_id: $AWS_ACCESS_KEY # the keys we store in env vars in travis
+  secret_access_key: $AWS_SECRET_KEY
