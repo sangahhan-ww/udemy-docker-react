@@ -17,6 +17,9 @@ RUN npm run build
 
 FROM nginx as runner
 
+# required for beanstalk; this is the default port, typically not needed
+EXPOSE 80
+
 # the --from means we are copying from a previous phase
 # then the destination folder is nginx default
 COPY --from=builder /app/build /usr/share/nginx/html
